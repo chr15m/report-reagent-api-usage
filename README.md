@@ -1,6 +1,6 @@
 # Reagent API most used
 
-In the process of developing [Eucalypt]() I was interested in which parts of the Reagent API are most used.
+In the process of developing [Eucalypt](https://github.com/chr15m/Eucalypt) I was interested in which parts of the [Reagent API](https://reagent-project.github.io/) are most used.
 I put together these scripts to search GitHub for mentions of reagent and its API.
 Obviously these numbers have a lot of caveats (some API calls are inherently more frequent) but they give interesting ballpark numbers from non-private codebases.
 Hopefully this is useful to others.
