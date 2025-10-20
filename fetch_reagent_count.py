@@ -116,29 +116,103 @@ def fetch_total_count(query):
 
 
 def main():
-    queries = [
-        "[reagent.core",
-        "(rdom/render ",
-        "(r/render ",
-        "(r/wrap ",
-        "(r/track ",
-        "(r/track! ",
-        "(r/reaction ",
-        "(r/cursor ",
-        "(r/atom ",
-        "(r/with-let ",
-        "(r/unsafe-html ",
-    ]
+    QUERY_BUCKETS = {
+        "import reagent.core": ["[reagent.core"],
+        "import reagent.dom": ["[reagent.dom"],
+        "render": [
+            "(rdom/render ",
+            "(rd/render ",
+            "(dom/render ",
+            "(d/render ",
+            "(reagent-dom/render ",
+            "(reagent/render ",
+            "(r/render ",
+            "(rdomc/render ",
+            "(rdc/render ",
+            "(r-dom/render ",
+            "(r.dom/render ",
+            "(rdom-client/render ",
+            "(dom-server/render ",
+            "(rs/render ",
+            "(rclient/render ",
+            "(server/render ",
+            "(reagent.dom/render ",
+        ],
+        "atom": [
+            "(r/atom ",
+            "(reagent/atom ",
+            "(ra/atom ",
+            "(reagent.core/atom ",
+        ],
+        "cursor": [
+            "(r/cursor ",
+            "(reagent/cursor ",
+            "(ra/cursor ",
+            "(reagent.core/cursor ",
+        ],
+        "track": [
+            "(r/track ",
+            "(reagent/track ",
+            "(ra/track ",
+            "(reagent.core/track ",
+        ],
+        "track!": [
+            "(r/track! ",
+            "(reagent/track! ",
+            "(ra/track! ",
+            "(reagent.core/track! ",
+        ],
+        "reaction": [
+            "(r/reaction ",
+            "(reagent/reaction ",
+            "(ra/reaction ",
+            "(reagent.core/reaction ",
+        ],
+        "wrap": [
+            "(r/wrap ",
+            "(reagent/wrap ",
+            "(ra/wrap ",
+            "(reagent.core/wrap ",
+        ],
+        "with-let": [
+            "(r/with-let ",
+            "(reagent/with-let ",
+            "(ra/with-let ",
+            "(reagent.core/with-let ",
+        ],
+        "unsafe-html": [
+            "(r/unsafe-html ",
+            "(reagent/unsafe-html ",
+            "(ra/unsafe-html ",
+            "(reagent.core/unsafe-html ",
+        ],
+    }
     results = {}
-    for query in queries:
-        total_count = fetch_total_count(query)
-        results[query] = total_count
-        time.sleep(2)
+    for bucket_name, queries in QUERY_BUCKETS.items():
+        total_for_bucket = 0
+        has_any_result = False
+        print(f"\nProcessing bucket: {bucket_name}")
+        for query in queries:
+            total_count = fetch_total_count(query)
+            if total_count is not None:
+                total_for_bucket += total_count
+                has_any_result = True
+            time.sleep(2)
+
+        if has_any_result:
+            results[bucket_name] = total_for_bucket
+        else:
+            results[bucket_name] = None
 
     print("\n--- Reagent API Usage Report ---")
-    for query, total_count in results.items():
+    sorted_results = sorted(
+        results.items(),
+        key=lambda item: item[1] if item[1] is not None else -1,
+        reverse=True,
+    )
+    for bucket_name, total_count in sorted_results:
         count_str = str(total_count) if total_count is not None else "Error"
-        print(f"{query:<20} {count_str}")
+        print(f"{bucket_name:<25} {count_str}")
     print("--------------------------------\n")
 
 
