@@ -18,16 +18,9 @@ def build_headers(include_token=True, token=None):
 
 
 def candidate_queries(query):
-    queries = []
-
-    def add(candidate):
-        if candidate not in queries:
-            queries.append(candidate)
-
-    add(query)
-    if ":" not in query and not query.startswith('"'):
-        add(f'"{query}"')
-    return queries
+    if not query.startswith('"') and ":" not in query:
+        return [f'"{query}"']
+    return [query]
 
 
 def fetch_candidate_total(candidate, headers, include_token):
