@@ -186,6 +186,9 @@ def main():
             "(ra/unsafe-html ",
             "(reagent.core/unsafe-html ",
         ],
+        ":dangerouslySetInnerHTML": [
+            ":dangerouslySetInnerHTML",
+        ],
     }
     results = {}
     for bucket_name, queries in QUERY_BUCKETS.items():
