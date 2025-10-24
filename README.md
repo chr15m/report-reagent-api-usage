@@ -15,17 +15,18 @@ I would love to find a way to get "repo" counts not raw search counts, as "repos
 
 ```
 --- Reagent API Usage Report ---
-require reagent.core       6608
-atom                       6268
-render                     3562
-require reagent.dom        1516
-with-let                   1094
-cursor                     656
-track                      159
-wrap                       87
-track!                     60
-reaction                   55
-unsafe-html                12
+import reagent.core       7656
+atom                      6269
+render                    3581
+import reagent.dom        1664
+with-let                  1114
+:dangerouslySetInnerHTML  1036
+cursor                    670
+track                     170
+wrap                      94
+track!                    65
+reaction                  60
+unsafe-html               16
 --------------------------------
 ```
 
