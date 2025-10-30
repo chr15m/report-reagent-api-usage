@@ -15,10 +15,10 @@ I would love to find a way to get "repo" counts not raw search counts, as "repos
 
 ```
 --- Reagent API Usage Report ---
-import reagent.core       7656
+require reagent.core      7656
 atom                      6269
 render                    3581
-import reagent.dom        1664
+require reagent.dom       1664
 with-let                  1114
 :dangerouslySetInnerHTML  1036
 cursor                    670
@@ -29,6 +29,8 @@ reaction                  60
 unsafe-html               16
 --------------------------------
 ```
+
+![API usage graph](api-usage-graph.svg)
 
 ## Require styles
 
