@@ -9,6 +9,8 @@ See Python scripts for GitHub search/scraping of code. PRs for improving on this
 
 I would love to find a way to get "repo" counts not raw search counts, as "repos with r/atom calls" is more interesting/useful than just raw "r/atom calls".
 
+**Update:** See below for an analysis with better data from Adrian Smith.
+
 # Summary
 
 ## Functions
@@ -76,3 +78,30 @@ unsafe-html               16
 3     [reagent.dom.server :refer [render-to-string]
 ```
 
+## Dewey SQL analysis
+
+Adrian Smith ran the numbers using [Dewey SQL](https://blog.phronemophobic.com/dewey-sql.html):
+
+> I was curious how these results compared to running some queries using [dewey sql](https://blog.phronemophobic.com/dewey-sql.html) ([gist](https://gist.github.com/phronmophobic/8fff02625e1dcf18fbe722180a3f7efb)). Here are my results:
+> 
+> ```
+> ;; requires
+> "reagent.core"  4,677
+> "reagent.dom"     384
+> 
+> ;; var usages
+> "atom"          7,212
+> "cursor"        2,442
+> "reaction"         31
+> "track"           128
+> "track!"           38
+> "unsafe-html"       8
+> "with-let"        672
+> "wrap"            158
+> "render"          681
+> 
+> "dangerouslySetInnerHTML" 446
+> ```
+> 
+> I believe the dewey data will have fewer false positives, but potentially more false negatives.Based on what I found, I think it's likely that your render counts are inflated and probably have false positives. Same with with-let. One important caveat with `:dangerouslySetInnerHTML` is that since it's used by react, it's also used by many libraries other than reagent that wrap react. Additionally, other libraries also adopt it, even if they don't use react.
+> Fwiw, you can find example usages for vars [here](https://cloogle.phronemophobic.com/name-search.html?q=reagent.core%2Ftrack%21&tables=var-usages). The web UI will only return the first 200 results, but you can download a json file with the first 10k results.
